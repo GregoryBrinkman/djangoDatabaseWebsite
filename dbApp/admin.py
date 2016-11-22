@@ -30,4 +30,4 @@ for model_name,model in app.models.items():
     # print(model,model_name)
     # if ('musicians' not in model_name and 'instruments' not in model_name and 'songappears' not in model_name):
     admin.site.register(model)
-    print("REGISTERED " + str(model) + " " + str(model_name))
+    print("REGISTERED " + str(model_name))

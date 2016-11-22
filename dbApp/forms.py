@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Address(models.Model):
+class AddressForm(models.Model):
 
     #table declarations
 
@@ -11,11 +11,11 @@ class Address(models.Model):
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.address) + " " + str(self.phone))
+    def Meta:
+        model = AddressForm
+       fields = "__all__"
 
-
-class Musicians(models.Model):
+class MusiciansForm(models.Model):
 
     #table declarations
 
@@ -27,12 +27,12 @@ class Musicians(models.Model):
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.name) + " " +  str(self.ssn) + " "
-                + str(self.phone) + " " +  str(self.address))
+    def Meta:
+        model = Musicians
+       fields = "__all__"
 
 
-class Instruments(models.Model):
+class InstrumentsForm(models.Model):
 
     #table declarations
 
@@ -43,14 +43,14 @@ class Instruments(models.Model):
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.id) + " " +  str(self.name)
-                + " " +  str(self.key))
+    def Meta:
+        model = Instruments
+       fields = "__all__"
 
 
 
 
-class Plays(models.Model):
+class PlaysForm(models.Model):
 
     #table declarations
 
@@ -60,13 +60,13 @@ class Plays(models.Model):
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.musician) + " " +  str(self.instrument))
+    def Meta:
+       model = Plays
+       fields = "__all__"
 
 
 
-
-class Albums(models.Model):
+class AlbumsForm(models.Model):
 
     #table declarations
 
@@ -78,31 +78,30 @@ class Albums(models.Model):
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.id) + " " +  str(self.title) + " "
-                +  str(self.copyrightdate) + " " +  str(self.speed)
-                + " " + str(self.producer))
+    def Meta:
+        model = Albums
+       fields = "__all__"
 
 
 
-class Songs(models.Model):
+class SongsForm(models.Model):
 
     #table declarations
 
     title         = models.CharField(primary_key=True, max_length=50)
     author        = models.CharField(max_length=50)
-    album         = models.ForeignKey(Albums)
+    album     = models.ForeignKey(Albums)
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.title) + " " +  str(self.author)
-                + " " + str(self.album))
+    def Meta:
+        model = Songs
+       fields = "__all__"
 
 
 
 
-class Performs(models.Model):
+class PerformsForm(models.Model):
 
     #table declarations
 
@@ -112,8 +111,6 @@ class Performs(models.Model):
 
     #function declarions
 
-    def __str__(self):
-        return (str(self.musician) + " " +  str(self.song))
-
-
-
+    def Meta:
+       model = Performs
+       fields = "__all__"
