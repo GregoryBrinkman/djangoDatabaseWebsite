@@ -1,0 +1,10 @@
+<h1 class="album">{{album.albumTitle}}</h1>
+
+<p>{{album.albumTitle}} was produced by {{album.producer}} on {{album.copyrightdate}}.</p>
+
+<h3>songlist</h3>
+{% for song in songs &}
+    <li class="song">
+        <a href='{{ song.get_absolute_url }}'>{{song.songTitle}}</a>
+    </li>
+  {% endfor %}
