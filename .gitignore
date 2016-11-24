@@ -1,2 +1,3 @@
 databaseProject/.secret
 dbApp/migrations/
+dbApp/backup/

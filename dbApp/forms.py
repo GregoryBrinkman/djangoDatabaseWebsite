@@ -1,116 +1,51 @@
+from django.forms import ModelForm
 from django.db import models
+from .models import *
 
 # Create your models here.
-class AddressForm(models.Model):
-
-    #table declarations
-
-    address       = models.CharField(max_length=100, unique=True, primary_key=True)
-    phone         = models.CharField(max_length=12, unique=True)
-
-
-    #function declarions
-
-    def Meta:
-        model = AddressForm
-       fields = "__all__"
-
-class MusiciansForm(models.Model):
-
-    #table declarations
-
-    #Ints are big enough to hold entire social security numbers. Let's do that.
-    ssn           = models.IntegerField(primary_key=True, unique=True)
-    name          = models.CharField(max_length=30)
-    phone         = models.CharField(max_length=15)
-    address       = models.ForeignKey(Address)
-
-    #function declarions
-
-    def Meta:
+class MusiciansForm(ModelForm):
+    class Meta:
         model = Musicians
-       fields = "__all__"
+        fields = '__all__'
 
 
-class InstrumentsForm(models.Model):
-
-    #table declarations
-
-    id            = models.IntegerField(primary_key=True, unique=True)
-    name          = models.CharField(max_length=50)
-    key           = models.CharField(max_length=2)
-
-
-    #function declarions
-
-    def Meta:
+class InstrumentsForm(ModelForm):
+    class Meta:
         model = Instruments
-       fields = "__all__"
+        fields = '__all__'
+
+class PlaysForm(ModelForm):
+    class Meta:
+        model = Plays
+        fields = '__all__'
 
 
-
-
-class PlaysForm(models.Model):
-
-    #table declarations
-
-    musician      = models.ForeignKey(Musicians)
-    instrument    = models.ForeignKey(Instruments)
-
-
-    #function declarions
-
-    def Meta:
-       model = Plays
-       fields = "__all__"
-
-
-
-class AlbumsForm(models.Model):
-
-    #table declarations
-
-    id            = models.IntegerField(primary_key=True, unique=True)
-    title         = models.CharField(max_length=50)
-    copyrightdate = models.DateField()
-    speed         = models.IntegerField()
-    producer      = models.ForeignKey(Musicians)
-
-    #function declarions
-
-    def Meta:
+class AlbumsForm(ModelForm):
+    class Meta:
         model = Albums
-       fields = "__all__"
+        fields = '__all__'
 
 
-
-class SongsForm(models.Model):
-
-    #table declarations
-
-    title         = models.CharField(primary_key=True, max_length=50)
-    author        = models.CharField(max_length=50)
-    album     = models.ForeignKey(Albums)
-
-    #function declarions
-
-    def Meta:
+class SongsForm(ModelForm):
+    class Meta:
         model = Songs
-       fields = "__all__"
+        fields = '__all__'
+        # exclude = ['songID']
+
+    # def __init__(self, *args, **kwargs):
+    #     super(SongsForm, self).__init__(*args, **kwargs)
+    #     self.fields['author'].label = 'Musician'
+    #     self.fields['title'].label = 'Song Title'
+    #     self.fields['albumident'].label = 'Song Album'
+    #     self.fields['performs'].label = 'Performances'
+
+class PerformsForm(ModelForm):
+    class Meta:
+        model = Performs
+        fields = '__all__'
 
 
-
-
-class PerformsForm(models.Model):
-
-    #table declarations
-
-    musician      = models.ForeignKey(Musicians)
-    song          = models.ForeignKey(Songs)
-
-
-    #function declarions
-
-    def Meta:
-       model = Performs
-       fields = "__all__"
+class AddressForm(ModelForm):
+    class Meta:
+        model = Address
+        fields = '__all__'

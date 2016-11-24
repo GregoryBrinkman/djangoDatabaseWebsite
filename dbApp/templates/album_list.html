@@ -1,0 +1,9 @@
+<h1>Albums</h1>
+
+<ul>
+  {% for album in album_list %}
+    <li class="album">{{ album.albumTitle }}</li>
+  {% endfor %}
+</ul>
+
+<p>Did I miss an Album or two? You can fill them in <a href="/albuminsert/">here!</a></p>
