@@ -1,19 +1,30 @@
 import logging
 #use logging.warning for console output
 
-from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import *
-from django.core.urlresolvers import reverse_lazy
-#from django.forms import forms
-#from .forms import *
-from django.contrib.auth.mixins import LoginRequiredMixin
+# from django.core.urlresolvers import reverse_lazy
+from django.forms import forms
+from .forms import *
+# from django.contrib.auth.mixins import LoginRequiredMixin
 
 #instance = model.objects.get(x=y)
 #instance = get_object_or_404(model, x=y)
 
 #General User Search Query Views
+def Search(request):
+    template_name = 'index.html'
+    queryset = Musicians.objects.all()
+    contextual = {
+        'object_list': queryset,
+    }
+    return render(request, template_name, contextual)
+
+template_name = 'index.html'
+
 def MusicianLookup(request):
     template_name = 'musician_list.html'
     queryset = Musicians.objects.all()
@@ -22,19 +33,31 @@ def MusicianLookup(request):
     }
     return render(request, template_name, contextual)
 
-def SelectedMusician(request, name):
-    selected_musician = Musicians.objects.get(name=name)
-    template_name = 'musician.html'
-    contextual = {
-        'musician': selected_musician,
-    }
-    return render(request, template_name, contextual)
-
 def AlbumLookup(request):
     template_name = 'album_list.html'
     queryset = Albums.objects.all()
     contextual = {
         'album_list': queryset,
+    }
+    return render(request, template_name, contextual)
+
+def SongLookup(request):
+    template_name = 'song_list.html'
+    queryset = Songs.objects.all().order_by('appearson')
+    contextual = {
+        'song_list': queryset,
+    }
+    return render(request, template_name, contextual)
+
+
+
+#Individual item views
+
+def SelectedMusician(request, name):
+    selected_musician = Musicians.objects.get(name=name)
+    template_name = 'musician.html'
+    contextual = {
+        'musician': selected_musician,
     }
     return render(request, template_name, contextual)
 
@@ -50,14 +73,6 @@ def SelectedAlbum(request, title):
     }
     return render(request, template_name, contextual)
 
-def SongLookup(request):
-    template_name = 'song_list.html'
-    queryset = Songs.objects.all().order_by('appearson')
-    contextual = {
-        'song_list': queryset,
-    }
-    return render(request, template_name, contextual)
-
 def SelectedSong(request, title):
     selected_song = Songs.objects.get(songTitle=title)
     template_name = 'song.html'
@@ -68,16 +83,40 @@ def SelectedSong(request, title):
 
 
 
+#forms
+def MusiciansInsert(request, name=None):
+    form = MusicianForm(request.POST or None)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.success(request, "Musician successfully saved")
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    context = {
+        "form": form,
+    }
+    return render(request, "musician_insert.html", context)
+
+def MusiciansUpdate(request, name=None):
+    instance = get_object_or_404(Musicians, name=name)
+    form = MusicianForm(request.POST or None, instance=instance)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.save()
+        messages.success(request, "Musician successfully saved")
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    context = {
+        "form": form,
+    }
+    return render(request, "musician_insert.html", context)
 
 
-
-
-
-
-
-
-
-
+def MusiciansDelete(request, name=None):
+    instance = get_object_or_404(Musicians, name=name)
+    instance.delete()
+    messages.success(request, "Musician successfully deleted")
+    return HttpResponseRedirect("/musicians")
 
 
 

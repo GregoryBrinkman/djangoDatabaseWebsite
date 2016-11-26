@@ -1,11 +1,7 @@
-<h1>welcome</h1>
-<p>{{test}}</p>
+{% extends "base.html" %}
 
-<!-- { if tableName } -->
-<!-- <ul> -->
-<!-- { for row in tableName } -->
-<!-- <li>{{ row.attribute }}</li> -->
-<!-- </ul> -->
-<!-- { else } -->
-<!-- <strong>error message</strong> -->
-<!-- { endif } -->
+{% block content %}
+<h1>welcome</h1>
+<p>{{ for object in object_list }}</p>
+<li class="returned">{{ object.name }}</li>
+{% endblock content %}

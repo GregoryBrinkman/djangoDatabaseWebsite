@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Albums</h1>
 
 <ul>
@@ -8,4 +11,5 @@
   {% endfor %}
 </ul>
 
-<p>Did I miss an Album or two? You can fill them in <a href="/albuminsert/">here!</a></p>
+<p>Did we miss an Album or two? You can fill them in <a href="/albuminsert/">here!</a></p>
+{% endblock content %}
