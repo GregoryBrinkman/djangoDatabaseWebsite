@@ -20,3 +20,23 @@ class InstrumentForm(forms.ModelForm):
     class Meta:
         model = Instruments
         fields = '__all__'
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+class PerformsForm(forms.ModelForm):
+    class Meta:
+        model = Performs
+        fields = '__all__'
+
+class PlaysForm(forms.ModelForm):
+    class Meta:
+        model = Plays
+        fields = '__all__'
+
+class AppearsOnForm(forms.ModelForm):
+    class Meta:
+        model = AppearsOn
+        fields = '__all__'

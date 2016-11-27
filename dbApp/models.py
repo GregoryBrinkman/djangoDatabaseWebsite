@@ -109,9 +109,7 @@ class Songs(models.Model):
 
     songId        = models.IntegerField(default=0, primary_key=True, unique=True)
     songTitle      = models.CharField(max_length=150)
-    
     songWriter     = models.ForeignKey(Musicians)
-    #songWriter     = models.CharField(max_length=50)
 
     #function declarions
 

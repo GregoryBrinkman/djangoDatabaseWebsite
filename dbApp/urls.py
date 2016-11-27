@@ -30,9 +30,20 @@ urlpatterns = (
     url(r'^instruments/(?P<id>[\d]+)/edit/$', views.InstrumentsUpdate, name='instrument_update'),
     url(r'^instruments/(?P<id>[\d]+)/delete/$', views.InstrumentsDelete, name='instrument_delete'),
 
-    # url(r'^connect/performs/$', views.PerformsInsert),
-    # url(r'^connect/appears_on/$', views.AppearsOnInsert),
-    # url(r'^connect/plays/$', views.PlaysInsert),
+    url(r'^performs/$', views.PerformsLookup),
+    url(r'^performs/insert/$', views.PerformsInsert),
+    url(r'^performs/(?P<ssn>[\d]+)/(?P<id>[\d]+)/edit/$', views.PerformsUpdate),
+    url(r'^performs/(?P<ssn>[\d]+)/(?P<id>[\d]+)/delete/$', views.PerformsDelete),
+
+    url(r'^appears_on/$', views.AppearsOnLookup),
+    url(r'^appears_on/insert/$', views.AppearsOnInsert),
+    url(r'^appears_on/(?P<ssn>[\d]+)/(?P<id>[\d]+)/edit/$', views.AppearsOnUpdate),
+    url(r'^appears_on/(?P<ssn>[\d]+)/(?P<id>[\d]+)/delete/$', views.AppearsOnDelete),
+
+    url(r'^plays/$', views.PlaysLookup),
+    url(r'^plays/insert/$', views.PlaysInsert),
+    url(r'^plays/(?P<ssn>[\d]+)/(?P<id>[\d]+)/edit/$', views.PlaysUpdate),
+    url(r'^plays/(?P<ssn>[\d]+)/(?P<id>[\d]+)/delete/$', views.PlaysDelete),
 
     url(r'^addresses/$', views.AddressLookup),
     url(r'^addresses/insert/$', views.AddressInsert),

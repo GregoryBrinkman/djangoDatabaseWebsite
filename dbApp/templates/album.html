@@ -13,19 +13,23 @@
 
 <p>{{ album.albumTitle }} was produced by {{ album.producer.name }} and originally released on {{ album.copyrightdate }}.</p>
 
+{% if songs %}
 <h3>songlist</h3>
+{% endif %}
 {% for song in songs %}
 <ul>
     <li class="song">
-        <a href='{{ song.get_absolute_url }}'>{{ song.songTitle }}</a>
+        <a href='{{ song.song.get_absolute_url }}'>{{ song.song.songTitle }}</a>
     </li>
 </ul>
+{% empty %}
+<p>Oops! We didn't find any songs for this album!</p>
 {% endfor %}
 
 
 
 
-<form action="/connect/appears_on">
+<form action="/appears_on">
     Is this missing a song? <input type="submit" value="Add a song to this Album" />
 </form>
 

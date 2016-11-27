@@ -6,23 +6,35 @@
 <p>Hope you know the password!</p>
 
 <form action="/albums">
-    <input type="submit" value="View Album" />
+    <input type="submit" value="View Albums" />
 </form>
 
 <form action="/musicians">
-    <input type="submit" value="View Musician" />
+    <input type="submit" value="View Musicians" />
 </form>
 
 <form action="/songs">
-    <input type="submit" value="View Song" />
+    <input type="submit" value="View Songs" />
 </form>
 
 <form action="/instruments">
-    <input type="submit" value="View Instrument" />
+    <input type="submit" value="View Instruments" />
 </form>
 
 <form action="/addresses">
     <input type="submit" value="View Addresses" />
+</form>
+
+<form action="/performs">
+    <input type="submit" value="View what songs each musician performs" />
+</form>
+
+<form action="/plays">
+    <input type="submit" value="View what instruments each musician plays" />
+</form>
+
+<form action="/appears_on">
+    <input type="submit" value="View which songs appear on each album" />
 </form>
 
 <form action="/albums/insert">
@@ -45,18 +57,15 @@
     <input type="submit" value="New Address" />
 </form>
 
-<form action="/albums/songs">
+<form action="/appears_on/insert">
     <input type="submit" value="Add Song to Album" />
 </form>
 
-<form action="/musicians/instruments">
+<form action="/plays/insert">
     <input type="submit" value="Add Instrument to Musician" />
 </form>
 
-<form action="/musicians/songs">
+<form action="/performs/insert">
     <input type="submit" value="Add Performance Credit to Musician" />
 </form>
-
-
-
 {% endblock content %}
