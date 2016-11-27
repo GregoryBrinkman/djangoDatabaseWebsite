@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
 <h1>Songs</h1>
 
+<p>Did we miss a Song or two? You can fill them in <a href="/songs/insert/">here!</a></p>
 <ul>
     {% for song in song_list %}
     <li class="song">

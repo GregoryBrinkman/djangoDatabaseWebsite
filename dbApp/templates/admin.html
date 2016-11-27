@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Admin Panel</h1>
+
+<p>Hope you know the password!</p>
+
+<form action="/albums">
+    <input type="submit" value="View Album" />
+</form>
+
+<form action="/musicians">
+    <input type="submit" value="View Musician" />
+</form>
+
+<form action="/songs">
+    <input type="submit" value="View Song" />
+</form>
+
+<form action="/instruments">
+    <input type="submit" value="View Instrument" />
+</form>
+
+<form action="/addresses">
+    <input type="submit" value="View Addresses" />
+</form>
+
+<form action="/albums/insert">
+    <input type="submit" value="New Album" />
+</form>
+
+<form action="/musicians/insert">
+    <input type="submit" value="New Musician" />
+</form>
+
+<form action="/songs/insert">
+    <input type="submit" value="New Song" />
+</form>
+
+<form action="/instruments/insert">
+    <input type="submit" value="New Instrument" />
+</form>
+
+<form action="/addresses/insert">
+    <input type="submit" value="New Address" />
+</form>
+
+<form action="/albums/songs">
+    <input type="submit" value="Add Song to Album" />
+</form>
+
+<form action="/musicians/instruments">
+    <input type="submit" value="Add Instrument to Musician" />
+</form>
+
+<form action="/musicians/songs">
+    <input type="submit" value="Add Performance Credit to Musician" />
+</form>
+
+
+
+{% endblock content %}

@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
 <h1>Musicians</h1>
 
 <ul>
+<p>Did we miss a Musician or two? You can fill them in <a href="/musicians/insert/">here!</a></p>
   {% for musician in musician_list %}
     <li class="musician">
         <a href='{{ musician.get_absolute_url }}'>{{musician.name}}</a>

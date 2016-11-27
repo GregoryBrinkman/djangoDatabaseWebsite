@@ -1,5 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-        <h1 class="musician">{{musician.name}}</h1>
+
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
+<div class="musician">{{musician.name}}</div> plays the following instruments:
+{% for instrument in instrument_list %}
+    <li class="instrument">
+       {{ instrument.instrumentName }} in {{ instrument.key }}
+    </li>
+  {% endfor %}
+
+<div class="musician">{{musician.name}}</div> has performed on the following songs:
+{% for song in song_list %}
+    <li class="song">
+        <a href="{{song.get_absolute_url}}">{{ song.songTitle }}</a>
+    </li>
+  {% endfor %}
+
+<form action="/musicians">
+    <input type="submit" value="To Musician List" />
+</form>
+
+<form action="/{{ musician.ssn }}/delete">
+    <input type="submit" value="Delete This Musician" />
+</form>
+
+<form action="/musician/{{ musician.ssn }}/edit">
+    <input type="submit" value="Edit This Musician" />
+</form>
 {% endblock content %}

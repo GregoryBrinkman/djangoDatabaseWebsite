@@ -34,7 +34,7 @@ class Musicians(models.Model):
                 + str(self.phone) + " " +  str(self.address))
 
     def get_absolute_url(self):
-        return reverse("selected_musician", kwargs={"name":self.name})
+        return reverse("selected_musician", kwargs={"name":self.name, "id":self.ssn})
 
 class Instruments(models.Model):
 
@@ -51,7 +51,7 @@ class Instruments(models.Model):
 
     instrumentId   = models.IntegerField(primary_key=True, unique=True)
     instrumentName = models.CharField(max_length=50)
-    key            = models.CharField(max_length=2, choices=KEYS, default='B Flat')
+    key            = models.CharField(max_length=2, choices=KEYS, default='Bb')
 
 
     #function declarions
@@ -60,6 +60,8 @@ class Instruments(models.Model):
         return (str(self.instrumentId) + " " 
                 +  str(self.instrumentName) + " " +  str(self.key))
 
+    def get_absolute_url(self):
+        return reverse("instrument_update", kwargs={"id":self.instrumentId})
 
 
 
@@ -98,15 +100,18 @@ class Albums(models.Model):
                 + " " + str(self.producer))
 
     def get_absolute_url(self):
-        return reverse("selected_album", kwargs={"title":self.albumTitle})
+        return reverse("selected_album", kwargs={"name":self.albumTitle, "id":self.albumId})
 
 
 class Songs(models.Model):
 
     #table declarations
 
-    songTitle      = models.CharField(primary_key=True, max_length=50)
-    songWriter     = models.CharField(max_length=50)
+    songId        = models.IntegerField(default=0, primary_key=True, unique=True)
+    songTitle      = models.CharField(max_length=150)
+    
+    songWriter     = models.ForeignKey(Musicians)
+    #songWriter     = models.CharField(max_length=50)
 
     #function declarions
 
@@ -114,7 +119,7 @@ class Songs(models.Model):
         return (str(self.songTitle) + " " +  str(self.songWriter))
 
     def get_absolute_url(self):
-        return reverse("selected_song", kwargs={"title":self.songTitle})
+        return reverse("selected_song", kwargs={"name":self.songTitle, "id":self.songId})
 
 
 

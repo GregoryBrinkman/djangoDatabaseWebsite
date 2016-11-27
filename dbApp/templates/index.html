@@ -1,7 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>welcome</h1>
-<p>{{ for object in object_list }}</p>
-<li class="returned">{{ object.name }}</li>
+<h1>Welcome to the Notown Record collection!</h1>
+
+<form action="/albums">
+    <input type="submit" value="Search for an Album" />
+</form>
+
+<form action="/musicians">
+    <input type="submit" value="Search for a Musician" />
+</form>
+
+<form action="/songs">
+    <input type="submit" value="Search for a Song" />
+</form>
+
+<form action="/admin_panel">
+    <input type="submit" value="Admin" />
+</form>
 {% endblock content %}
