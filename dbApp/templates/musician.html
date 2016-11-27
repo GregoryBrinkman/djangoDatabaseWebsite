@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<form action="/">
-    <input type="submit" value="HomePage" />
+<form action="/admin_panel">
+    <input type="submit" value="AdminPage" />
 </form>
 <h1>{{musician.name}}</h1><br> 
 {% if plays_list %}
@@ -14,7 +14,7 @@
        {{ plays.instrument.instrumentName }} in {{ plays.instrument.key }}
     </li>
 {% empty %}
-<p>Doesn't look like this musician plays any instruments! You can change that <a href="/plays">here!</a></p>
+<p>Doesn't look like this musician plays any instruments! You can change that <a href="/admin_panel/plays">here!</a></p>
 {% endfor %}
 <br>
 {% if performs_list %}
@@ -25,18 +25,18 @@
         <a href="{{performs.song.get_absolute_url}}">{{ performs.song.songTitle }}</a>
     </li>
 {% empty %}
-<p>Doesn't look like this musician performs on any songs! You can change that <a href="/performs">here!</a></p>
+<p>Doesn't look like this musician performs on any songs! You can change that <a href="/admin_panel/performs">here!</a></p>
 {% endfor %}
 
-<form action="/musicians">
+<form action="/admin_panel/musicians">
     <input type="submit" value="To Musician List" />
 </form>
 
-<form action="/{{ musician.ssn }}/delete">
+<form action="/admin_panel/musician/{{ musician.ssn }}/delete">
     <input type="submit" value="Delete This Musician" />
 </form>
 
-<form action="/musician/{{ musician.ssn }}/edit">
+<form action="/admin_panel/musician/{{ musician.ssn }}/edit">
     <input type="submit" value="Edit This Musician" />
 </form>
 {% endblock content %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
+<form action="/musicians">
+    <input type="submit" value="To Musician List" />
+</form>
+<h1>{{musician.name}}</h1><br> 
+{% if plays_list %}
+{{musician.name}} plays the following instruments:
+{% endif %}
+{% for plays in plays_list %}
+    <li class="instrument">
+       {{ plays.instrument.instrumentName }} in {{ plays.instrument.key }}
+    </li>
+{% empty %}
+<p>Doesn't look like this musician plays any instruments!</p>
+{% endfor %}
+<br>
+{% if performs_list %}
+{{musician.name}} has performed on the following songs:
+{% endif %}
+{% for performs in performs_list %}
+    <li class="song">
+        <a href="{{performs.song.get_absolute_url}}">{{ performs.song.songTitle }}</a>
+    </li>
+{% empty %}
+<p>Doesn't look like this musician performs on any songs!</p>
+{% endfor %}
+
+
+{% endblock content %}

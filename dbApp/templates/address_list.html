@@ -1,27 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="/">
-    <input type="submit" value="HomePage" />
-</form>
 <form action="/admin_panel">
     <input type="submit" value="AdminPage" />
 </form>
 <h1>THIS IS AN ADMIN ONLY PAGE</h1>
 <h1>Addresses</h1>
 
-<p>Did we miss an Address or two? You can fill them in <a href="/addresses/insert/">here!</a></p>
+
+<p>Did we miss an Address or two? You can fill them in <a href="/admin_panel/addresses/insert/">here!</a></p>
 <ul>
   {% for address in address_list %}
     <li class="address">
 	    Address: {{ address.address }}<br>
         Phone number: {{ address.addressPhone }}.
-<form action="/addresses/{{address.addressPhone}}/edit">
+<form action="/admin_panel/addresses/{{address.addressPhone}}/edit">
     Is this information wrong? <input type="submit" value="Edit this Address" />
 </form>
 
     </li>
-<form action="/addresses/{{address.addressPhone}}/Delete">
+<form action="/admin_panel/addresses/{{address.addressPhone}}/delete">
     <input type="submit" value="Delete this Address" />
 </form>
 <br>

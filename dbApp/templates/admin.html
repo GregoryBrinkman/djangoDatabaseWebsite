@@ -1,71 +1,73 @@
 {% extends "base.html" %}
 
 {% block content %}
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
 <h1>Admin Panel</h1>
 
-<p>Hope you know the password!</p>
 
-<form action="/albums">
+<form action="/admin_panel/albums">
     <input type="submit" value="View Albums" />
 </form>
 
-<form action="/musicians">
+<form action="/admin_panel/musicians">
     <input type="submit" value="View Musicians" />
 </form>
 
-<form action="/songs">
+<form action="/admin_panel/songs">
     <input type="submit" value="View Songs" />
 </form>
 
-<form action="/instruments">
+<form action="/admin_panel/instruments">
     <input type="submit" value="View Instruments" />
 </form>
 
-<form action="/addresses">
+<form action="/admin_panel/addresses">
     <input type="submit" value="View Addresses" />
 </form>
 
-<form action="/performs">
+<form action="/admin_panel/performs">
     <input type="submit" value="View what songs each musician performs" />
 </form>
 
-<form action="/plays">
+<form action="/admin_panel/plays">
     <input type="submit" value="View what instruments each musician plays" />
 </form>
 
-<form action="/appears_on">
+<form action="/admin_panel/appears_on">
     <input type="submit" value="View which songs appear on each album" />
 </form>
 
-<form action="/albums/insert">
+<form action="/admin_panel/albums/insert">
     <input type="submit" value="New Album" />
 </form>
 
-<form action="/musicians/insert">
+<form action="/admin_panel/musicians/insert">
     <input type="submit" value="New Musician" />
 </form>
 
-<form action="/songs/insert">
+<form action="/admin_panel/songs/insert">
     <input type="submit" value="New Song" />
 </form>
 
-<form action="/instruments/insert">
+<form action="/admin_panel/instruments/insert">
     <input type="submit" value="New Instrument" />
 </form>
 
-<form action="/addresses/insert">
+<form action="/admin_panel/addresses/insert">
     <input type="submit" value="New Address" />
 </form>
 
-<form action="/appears_on/insert">
+<form action="/admin_panel/appears_on/insert">
     <input type="submit" value="Add Song to Album" />
 </form>
 
-<form action="/plays/insert">
+<form action="/admin_panel/plays/insert">
     <input type="submit" value="Add Instrument to Musician" />
 </form>
 
-<form action="/performs/insert">
+<form action="/admin_panel/performs/insert">
     <input type="submit" value="Add Performance Credit to Musician" />
 </form>
 {% endblock content %}

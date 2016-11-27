@@ -1,27 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="/">
-    <input type="submit" value="HomePage" />
-</form>
-
 <form action="/admin_panel">
     <input type="submit" value="AdminHome" />
 </form>
 <h1>Performs</h1>
+<h1>THIS IS AN ADMIN ONLY PAGE</h1>
 
 <ul>
-    <p>Did we miss an connection or two? You can fill them in <a href="/performs/insert/">here!</a></p>
+    <p>Did we miss an connection or two? You can fill them in <a href="/admin_panel/performs/insert/">here!</a></p>
     {% for item in performs_list %}
     <li>
         <a href='{{ item.musician.get_absolute_url }}'>{{ item.musician.name }}</a>
         :
         <a href="{{ item.song.get_absolute_url }}">{{ item.song.songTitle }}</a>
-        <form action="/performs/{{item.musician_id}}/{{item.song.songId}}/edit">
+        <form action="/admin_panel/performs/{{item.musician_id}}/{{item.song.songId}}/edit">
             <input type="submit" value="Edit this entry" />
         </form>
 
-        <form action="/performs/{{item.musician.ssn}}/{{item.song.songId}}/delete">
+        <form action="/admin_panel/performs/{{item.musician.ssn}}/{{item.song.songId}}/delete">
             <input type="submit" value="Delete this entry" />
         </form>
 

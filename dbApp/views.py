@@ -1,23 +1,85 @@
 import logging
 #use logging.warning for console output
 
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from .models import *
 # from django.core.urlresolvers import reverse_lazy
 from django.forms import forms
-from .forms import *
-# from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import * 
 
 #instance = model.objects.get(x=y)
 #instance = get_object_or_404(model, x=y)
 
+def UserMusicianLookup(request):
+    template_name = 'user_musician_list.html'
+    queryset = Musicians.objects.all()
+    contextual = {
+        'musician_list': queryset,
+    }
+    return render(request, template_name, contextual)
+
+def UserAlbumLookup(request):
+    template_name = 'user_album_list.html'
+    queryset = Albums.objects.all()
+    contextual = {
+        'album_list': queryset,
+    }
+    return render(request, template_name, contextual)
+
+def UserSongLookup(request):
+    template_name = 'user_song_list.html'
+    queryset = Songs.objects.all().order_by('appearson')
+    contextual = {
+        'song_list': queryset,
+    }
+    return render(request, template_name, contextual)
+
+def UserSelectedMusician(request, name, id):
+    selected_musician = Musicians.objects.get(name=name, ssn=id)
+    song_list = Performs.objects.filter(musician=selected_musician)
+    instrument_list = Plays.objects.filter(musician=selected_musician)
+    template_name = 'user_musician.html'
+    contextual = {
+        'musician': selected_musician,
+        'performs_list': song_list,
+        'plays_list': instrument_list,
+    }
+    return render(request, template_name, contextual)
+
+def UserSelectedAlbum(request, name, id):
+    selected_album = Albums.objects.get(albumTitle=name, albumId=id)
+    template_name = 'user_album.html'
+    song_list = AppearsOn.objects.filter(album=selected_album)
+    contextual = {
+            'album': selected_album,
+            'songs': song_list,
+            }
+    return render(request, template_name, contextual)
+
+def UserSelectedSong(request, id):
+    selected_song = Songs.objects.get(songId=id)
+    template_name = 'user_song.html'
+    song_list = AppearsOn.objects.filter(song=selected_song)
+    contextual = {
+        'song': selected_song,
+        'appears_on': song_list,
+    }
+    return render(request, template_name, contextual)
+
+
+
+
 #General User Search Query Views
 def Search(request):
+    queryset = None
+    if request.POST:
+        # logging.warning()
+        musician = Musicians.objects.get(name__contains=request.POST['search'])
+        queryset = musician
     template_name = 'index.html'
-    queryset = Musicians.objects.all()
     contextual = {
         'object_list': queryset,
     }
@@ -127,6 +189,22 @@ def SelectedSong(request, name, id):
 
 
 #forms
+def Login(request, page=None):
+    if request.method == "POST":
+        password = request.POST['password']
+        user = authenticate(username='user', password=password)
+        if user is not None:
+            return HttpResponseRedirect('/admin_panel')
+        else:
+            message = "Incorrect Password"
+            messages.error(request, message)
+            return HttpResponseRedirect('/')
+    else:
+        template_name = 'login.html'
+        contextual = {}
+        return render(request, template_name, contextual)
+
+
 def AdminHome(request):
     template_name = 'admin.html'
     contextual = {}
@@ -169,7 +247,7 @@ def MusiciansDelete(request, id=None):
     instance = get_object_or_404(Musicians, ssn=id)
     instance.delete()
     messages.success(request, "Musician successfully deleted")
-    return HttpResponseRedirect("/musicians")
+    return HttpResponseRedirect("/admin_panel/musicians")
 
 
 
@@ -211,7 +289,7 @@ def AlbumsDelete(request, id=None):
     instance = get_object_or_404(Albums, albumId=id)
     instance.delete()
     messages.success(request, "Album successfully deleted")
-    return HttpResponseRedirect("/albums")
+    return HttpResponseRedirect("/admin_panel/albums")
 
 
 
@@ -252,7 +330,7 @@ def SongsDelete(request, id=None):
     instance = get_object_or_404(Songs, songId=id)
     instance.delete()
     messages.success(request, "Song successfully deleted")
-    return HttpResponseRedirect("/songs")
+    return HttpResponseRedirect("/admin_panel/songs")
 
 
 
@@ -294,7 +372,7 @@ def InstrumentsDelete(request, id=None):
     instance = get_object_or_404(Instruments, instrumentId=id)
     instance.delete()
     messages.success(request, "Instrument successfully deleted")
-    return HttpResponseRedirect("/instruments")
+    return HttpResponseRedirect("/admin_panel/instruments")
 
 
 
@@ -308,7 +386,7 @@ def AddressInsert(request):
         instance.save()
         message = "Address successfully saved"
         messages.success(request, message)
-        return HttpResponseRedirect("/addresses")
+        return HttpResponseRedirect("/admin_panel/addresses")
 
     context = {
         "action": "Add",
@@ -324,7 +402,7 @@ def AddressUpdate(request, id=None):
         instance = form.save(commit=False)
         instance.save()
         messages.success(request, "Address successfully saved")
-        return HttpResponseRedirect("/addresses")
+        return HttpResponseRedirect("/admin_panel/addresses")
 
     context = {
         "action": "Edit",
@@ -338,7 +416,7 @@ def AddressDelete(request, id=None):
     instance = get_object_or_404(Address, addressPhone=id)
     instance.delete()
     messages.success(request, "Address successfully deleted")
-    return HttpResponseRedirect("/addresses")
+    return HttpResponseRedirect("/admin_panel/addresses")
 
 
 
@@ -349,7 +427,7 @@ def PlaysInsert(request):
         instance.save()
         message = "Instrument successfully linked to Musician"
         messages.success(request, message)
-        return HttpResponseRedirect("/musicians")
+        return HttpResponseRedirect("/admin_panel/musicians")
 
     context = {
         "action": "Add",
@@ -366,7 +444,8 @@ def PlaysUpdate(request, ssn=None, id=None):
         instance = form.save(commit=False)
         instance.save()
         messages.success(request, "Instrument successfully linked to Musician")
-        return HttpResponseRedirect("/musicians")
+        musician = Musicians.objects.get(ssn=ssn)
+        return HttpResponseRedirect(musician.get_absolute_url())
 
     context = {
         "action": "Edit",
@@ -380,7 +459,8 @@ def PlaysDelete(request, ssn=None, id=None):
     instance = get_object_or_404(Plays, instrument_id=id, musician_id=ssn)
     instance.delete()
     messages.success(request, "Instrument successfully removed from Musician")
-    return HttpResponseRedirect("/musicians")
+    musician = Musicians.objects.get(ssn=ssn)
+    return HttpResponseRedirect(musician.get_absolute_url())
 
 
 
@@ -393,7 +473,7 @@ def AppearsOnInsert(request):
         instance.save()
         message = "Song successfully added to Album"
         messages.success(request, message)
-        return HttpResponseRedirect("/albums")
+        return HttpResponseRedirect("/admin_panel/albums")
 
     context = {
         "action": "Add",
@@ -440,7 +520,7 @@ def PerformsInsert(request):
         instance.save()
         message = "Musician successfully linked to song"
         messages.success(request, message)
-        return HttpResponseRedirect("/admin_panel")
+        return HttpResponseRedirect("/admin_panel/musicians")
 
     context = {
         "action": "Add",
@@ -457,7 +537,8 @@ def PerformsUpdate(request, ssn=None, id=None):
         instance = form.save(commit=False)
         instance.save()
         messages.success(request, "Musician successfully linked to song")
-        return HttpResponseRedirect("/musicians")
+        musician = Musicians.objects.get(ssn=ssn)
+        return HttpResponseRedirect(musician.get_absolute_url())
 
     context = {
         "action": "Edit",
@@ -471,27 +552,6 @@ def PerformsDelete(request, ssn=None, id=None):
     instance = get_object_or_404(Performs, musician_id=ssn, song_id=id)
     instance.delete()
     messages.success(request, "Musician successfully removed from song")
-    return HttpResponseRedirect("/musicians")
-
-
-
-
-# # #Admin Del/Add/Edit Views
-
-# class AlbumInsert(LoginRequiredMixin,CreateView):
-#     model = Albums
-#     form = AlbumsForm()
-#     success_url = reverse_lazy("albums")
-#     fields = "__all__"
-#     # login_url = '/accounts/login'
-
-#     def form_valid(self,form):
-#         # if((form.cleaned_data['id']) <= 0):
-#         return super(AlbumInsert, self).form_valid(form)
-
-#     def post(self, request, *args, **kwargs):
-#         if request.POST['password'] != "cs430":
-#             return HttpResponseRedirect("/albums")
-#         return super(AlbumInsert, self).post(request, *args, **kwargs)
-
+    musician = Musicians.objects.get(ssn=ssn)
+    return HttpResponseRedirect(musician.get_absolute_url())
 

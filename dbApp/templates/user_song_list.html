@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
+<h1>Songs</h1>
+<ul>
+    {% for song in song_list %}
+    <li class="song">
+        <a href='{{ song.songId }}'>{{ song.songTitle }}</a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

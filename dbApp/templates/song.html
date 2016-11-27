@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<form action="/">
-    <input type="submit" value="HomePage" />
+<form action="/admin_panel/">
+    <input type="submit" value="AdminPage" />
 </form>
 <h1 class="song">{{song.songTitle}}</h1>
 
@@ -17,20 +17,20 @@ It appears on these albums:
 {% for albums in appears_on %}
 {{albums.album.albumTitle}}.</p>
 {% empty %}
-This song doesn't appear on any albums! You can add them <a href="/appears_on">here!</a></p>
+This song doesn't appear on any albums! You can add them <a href="/admin_panel/appears_on">here!</a></p>
 {% endfor %}
 
 
 
-<form action="/songs">
+<form action="/admin_panel/songs">
     <input type="submit" value="To Song List" />
 </form>
 
-<form action="/song/{{ song.songId }}/delete">
+<form action="/admin_panel/song/{{ song.songId }}/delete">
     <input type="submit" value="Delete This Song" />
 </form>
 
-<form action="/song/{{ song.songId }}/edit">
+<form action="/admin_panel/song/{{ song.songId }}/edit">
     <input type="submit" value="Edit This Song" />
 </form>
 {% endblock content %}

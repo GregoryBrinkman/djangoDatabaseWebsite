@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form action="/admin_panel/">
-    <input type="submit" value="AdminPage" />
+<form action="/">
+    <input type="submit" value="HomePage" />
 </form>
 
-<form action="/admin_panel/albums">
+<form action="/albums">
     <input type="submit" value="To Album List" />
 </form>
 
@@ -26,18 +26,4 @@
 <p>Oops! We didn't find any songs for this album!</p>
 {% endfor %}
 
-
-
-
-<form action="/admin_panel/appears_on">
-    Is this missing a song? <input type="submit" value="Add a song to this Album" />
-</form>
-
-<form action="/admin_panel/album/{{ album.albumId }}/delete">
-    <input type="submit" value="Delete This Album" />
-</form>
-
-<form action="/admin_panel/album/{{ album.albumId }}/edit">
-    <input type="submit" value="Edit This Album" />
-</form>
 {% endblock content %}
