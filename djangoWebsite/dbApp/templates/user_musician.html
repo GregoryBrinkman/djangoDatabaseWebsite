@@ -25,7 +25,7 @@
 {% endif %}
 {% for performs in performs_list %}
     <li class="song">
-        <a href="{{performs.song.get_absolute_url}}">{{ performs.song.songTitle }}</a>
+	    <a href="/songs/{{performs.song.songId}}">{{ performs.song.songTitle }}</a>
     </li>
 {% empty %}
 <p>Doesn't look like this musician performs on any songs!</p>
