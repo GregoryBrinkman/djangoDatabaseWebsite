@@ -29,9 +29,9 @@ secret = secretFile.read(51)
 SECRET_KEY = '%s' % (secret)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gregoryBrinkman.pythonanywhere.com']
 
 
 # Application definition
