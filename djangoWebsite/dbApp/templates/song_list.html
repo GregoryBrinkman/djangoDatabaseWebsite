@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="/admin_panel/">
+    <input type="submit" value="AdminPage" />
+</form>
+<h1>Songs</h1>
+
+
+<form name="search" method="post" action="/admin_panel/songs/search/"> {% csrf_token %}
+<input type="text" size="40" name="search" value="" autofocus />
+<input type="submit" value="Search" />
+</form>
+<h4>Did we miss a Song or two? You can fill them in <a href="/admin_panel/songs/insert/">here!</a></h4>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Song Id</th>
+            <th>Song Title</th>
+            <th>Song Writer</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    {% for song in song_list %}
+
+    <tbody>
+        <tr>
+<td>{{ song.songId }}</td>
+<td>{{ song.songTitle }}</td>
+<td>{{ song.songWriter.name }}</td>
+          <td>
+                <form action="/admin_panel/song/{{song.songId}}/edit">
+                    <input type="submit" value="Edit" />
+                </form>
+            </td>
+            <td>
+                <form action="/admin_panel/song/{{song.songId}}/delete">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/admin_panel">
+    <input type="submit" value="AdminPage" />
+</form>
+
+<h1>AppearsOn</h1>
+<form name="search" method="post" action="/admin_panel/appears_on/search/"> {% csrf_token %}
+<input type="text" size="40" name="search" value="" autofocus />
+<input type="submit" value="Search" />
+</form>
+
+    <h4>Did we miss an connection or two? You can fill them in <a href="/admin_panel/appears_on/insert/">here!</a></h4>
+ 
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Album</th>
+            <th>Song</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+{% for item in list %}
+
+    <tbody>
+        <tr>
+            <td>{{ item.album.albumTitle }}</td>
+            <td>{{ item.song.songTitle }}</td>
+            <td>
+                <form action="/admin_panel/appears_on/{{item.album.albumId}}/{{item.song.songId}}/edit">
+                    <input type="submit" value="Edit" />
+                </form>
+            </td>
+            <td>
+                <form action="/admin_panel/appears_on/{{item.album.albumId}}/{{item.song.songId}}/delete">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock content %}

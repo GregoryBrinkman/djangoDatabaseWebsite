@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/admin_panel">
+    <input type="submit" value="AdminPage" />
+</form>
+<h1>Users</h1>
+
+<form name="search" method="post" action="/admin_panel/users/search/">{% csrf_token %}
+    <input type="text" size="40" name="search" value="" autofocus />
+    <input type="submit" value="Search" />
+</form>
+
+
+<p>Want to add a user? You can fill them in <a href="/admin_panel/users/insert/">here!</a></p>
+    {% for user in users_list %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>{{ user.username }}</th>
+            <td>
+                <form action="/admin_panel/users/{{user.username}}/edit">
+            <input type="submit" value="Edit" />
+             </form>
+</td>
+            <td><form action="/admin_panel/users/{{user.username}}/delete">
+            <input type="submit" value="Delete" />
+            </form>
+</td>
+        </tr>
+    </thead>
+    {% empty %}
+    <h4>We didn't find anyone with that name! Sorry!</h4>
+    {% endfor %}
+</table>
+{% endblock content %}
