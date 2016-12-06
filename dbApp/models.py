@@ -1,7 +1,22 @@
 from django.db import models
+from django.utils import timezone
 from django.core.urlresolvers import reverse
 
 # Create your models here.
+class Users(models.Model):
+
+    #table declarations
+
+    username = models.CharField(max_length=100, unique=True, primary_key=True, default=None)
+    password = models.CharField(max_length=100, default=None)
+
+
+    #function declarions
+
+    def __str__(self):
+        return (str(self.username) + " " + str(self.password))
+
+
 class Address(models.Model):
 
     #table declarations
@@ -23,7 +38,7 @@ class Musicians(models.Model):
     #Ints are big enough to hold entire social security numbers. Let's do that.
     ssn            = models.IntegerField(primary_key=True, unique=True)
     name           = models.CharField(max_length=30)
-    phone          = models.CharField(max_length=15)
+    phone          = models.CharField(max_length=11)
     address        = models.ForeignKey(Address)
 
     #function declarions
@@ -33,16 +48,24 @@ class Musicians(models.Model):
                 + str(self.phone) + " " +  str(self.address))
 
     def get_absolute_url(self):
-        return reverse("selected_musician", kwargs={"name":self.name})
-        # return "/musicians/%s/" %(self.name)
+        return reverse("selected_musician", kwargs={"name":self.name, "id":self.ssn})
 
 class Instruments(models.Model):
 
+    KEYS = (
+        ('Ab', 'A Flat'), ('A', 'A'), ('A#', 'A Sharp'),
+        ('Bb', 'B Flat'), ('B', 'B'),
+                          ('C', 'C'), ('C#', 'C Sharp'),
+        ('Db', 'D Flat'), ('D', 'D'), ('D#', 'D Sharp'),
+        ('Eb', 'E Flat'), ('E', 'E'),
+                          ('F', 'F'), ('F#', 'F Sharp'),
+        ('Gb', 'G Flat'), ('G', 'G'), ('G#', 'G Sharp'),
+    )
     #table declarations
 
     instrumentId   = models.IntegerField(primary_key=True, unique=True)
     instrumentName = models.CharField(max_length=50)
-    key            = models.CharField(max_length=2)
+    key            = models.CharField(max_length=2, choices=KEYS, default='Bb')
 
 
     #function declarions
@@ -51,6 +74,8 @@ class Instruments(models.Model):
         return (str(self.instrumentId) + " " 
                 +  str(self.instrumentName) + " " +  str(self.key))
 
+    def get_absolute_url(self):
+        return reverse("instrument_update", kwargs={"id":self.instrumentId})
 
 
 
@@ -72,12 +97,13 @@ class Plays(models.Model):
 
 class Albums(models.Model):
 
+    VINYL_SPEEDS = ((33, 33), (45, 45), (78, 78))
     #table declarations
 
-    albumId        = models.IntegerField(primary_key=True, unique=True)
+    albumId        = models.IntegerField(default=0, primary_key=True, unique=True)
     albumTitle     = models.CharField(max_length=50)
-    copyrightdate  = models.DateField()
-    speed          = models.IntegerField()
+    copyrightdate  = models.DateField(default=timezone.now())
+    speed          = models.IntegerField(choices=VINYL_SPEEDS, default=45)
     producer       = models.ForeignKey(Musicians)
 
     #function declarions
@@ -87,22 +113,25 @@ class Albums(models.Model):
                 +  str(self.copyrightdate) + " " +  str(self.speed)
                 + " " + str(self.producer))
 
+    def get_absolute_url(self):
+        return reverse("selected_album", kwargs={"name":self.albumTitle, "id":self.albumId})
 
 
 class Songs(models.Model):
 
     #table declarations
 
-    songTitle      = models.CharField(primary_key=True, max_length=50)
-    songWriter     = models.CharField(max_length=50)
-    appearsOn      = models.ForeignKey(Albums)
+    songId        = models.IntegerField(default=0, primary_key=True, unique=True)
+    songTitle      = models.CharField(max_length=150)
+    songWriter     = models.ForeignKey(Musicians)
 
     #function declarions
 
     def __str__(self):
-        return (str(self.songTitle) + " " +  str(self.songWriter)
-                + " " + str(self.appearsOn))
+        return (str(self.songTitle) + " " +  str(self.songWriter))
 
+    def get_absolute_url(self):
+        return reverse("selected_song", kwargs={"name":self.songTitle, "id":self.songId})
 
 
 
@@ -121,3 +150,14 @@ class Performs(models.Model):
 
 
 
+class AppearsOn(models.Model):
+
+    #table declarations
+
+    album          = models.ForeignKey(Albums)
+    song           = models.ForeignKey(Songs)
+
+    #function declarions
+
+    def __str__(self):
+        return (str(self.album) + " " + str(self.song))
