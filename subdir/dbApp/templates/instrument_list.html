@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/admin_panel">
+    <input type="submit" value="AdminPage" />
+</form>
+<h1>Instruments</h1>
+<form name="search" method="post" action="/admin_panel/instruments/search/"> {% csrf_token %}
+<input type="text" size="40" name="search" value="" autofocus />
+<input type="submit" value="Search" />
+</form>
+
+<h4>Did we miss an Instrument or two? You can fill them in <a href="/admin_panel/instruments/insert/">here!</a></h4>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Instrument Id</th>
+            <th>Instrument Name</th>
+            <th>Key</th>
+            <th></th>
+                <th></th>
+        </tr>
+    </thead>
+    {% for instrument in instrument_list %}
+    <tbody>
+        <tr>
+            <td>{{ instrument.instrumentId }}</td>
+            <td>{{ instrument.instrumentName }}</td>
+            <td>{{ instrument.key }}</td>
+            <td>
+                <form action="/admin_panel/instruments/{{instrument.instrumentId}}/edit">
+                    <input type="submit" value="Edit" />
+                </form>
+            </td>
+            <td>
+                <form action="/admin_panel/instruments/{{instrument.instrumentId}}/delete">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock content %}

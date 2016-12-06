@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/admin_panel">
+    <input type="submit" value="AdminHome" />
+</form>
+
+<h1>Plays</h1>
+
+<form name="search" method="post" action="/admin_panel/plays/search/"> {% csrf_token %}
+<input type="text" size="40" name="search" value="" autofocus />
+<input type="submit" value="Search" />
+</form>
+
+    <h4>Did we miss an connection or two? You can fill them in <a href="/admin_panel/plays/insert/">here!</a></h4>
+   
+<table class="table">
+    <thead>
+        <tr>
+            <th>Musician</th>
+            <th>Instrument Name</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+ {% for item in plays_list %}
+    <tbody>
+        <tr>
+            <td>{{ item.musician.name}}</td>
+            <td>{{ item.instrument.instrumentName }}</td>
+            <td>
+                <form action="/admin_panel/plays/{{item.musician_id}}/{{item.instrument.instrumentId}}/edit">
+                    <input type="submit" value="Edit" />
+                </form>
+            </td>
+            <td>
+                <form action="/admin_panel/plays/{{item.musician_id}}/{{item.instrument.instrumentId}}/delete">
+                    <input type="submit" value="Delete" />
+                </form>
+            </td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/">
+    <input type="submit" value="HomePage" />
+</form>
+
+<h1>Albums!</h1>
+
+<form name="search" method="post" action="/albums/search/"> {% csrf_token %}
+<input type="text" size="40" name="search" value="" autofocus />
+<input type="submit" value="Search" />
+    </form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Album Title</th>
+            <th>Speed</th>
+            <th>Copyright Date</th>
+            <th>Producer</th>
+        </tr>
+    </thead>
+    {% for album in album_list %}
+
+    <tbody>
+        <tr>
+            <td><a href='/albums/{{ album.albumId }}/{{ album.albumTitle }}'>{{ album.albumTitle }}</a></td>
+            <td>{{ album.speed }}</td>
+            <td>{{ album.copyrightdate }}</td>
+            <td>{{ album.producer.name }}</td>
+        </tr>
+    </tbody>
+    {% endfor %}
+</table>
+{% endblock content %}
